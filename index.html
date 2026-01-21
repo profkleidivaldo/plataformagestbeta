@@ -122,6 +122,7 @@ iframe{width:100%;height:80vh;border:none;border-radius:8px;box-shadow:0 0 10px 
       <li data-page="planejamento"><i class="ri-calendar-check-line"></i><span>Planejamento</span></li>
       <li data-page="autoria"><i class="ri-pencil-ruler-2-line"></i><span>Autoria</span></li>
       <li data-page="gestao"><i class="ri-briefcase-4-line"></i><span>Gestão de Sala</span></li>
+       <li data-page="dados"><i class="ri-briefcase-4-line"></i><span>Gestão de Dados</span></li>
       <li onclick="abrirLink('https://chat.whatsapp.com/INWzt9qAmzyDg2JnJkwPcu')">
         <i class="ri-whatsapp-line" style="color:#25D366;"></i><span>Grupo WhatsApp</span>
          </li>
@@ -269,6 +270,10 @@ const pages = {
       {titulo:"Espelho de notas 4°ANO",desc:"Lançe as notas aqui",icone:"ri-file-edit-line",link:"external:https://docs.google.com/spreadsheets/d/18L83bD2h5J0cuATSnI2YcCMXc86Jm0W-ZdmzzfFkFu0/edit?usp=sharing"},
     {titulo:"Espelho de notas 5°ANO",desc:"Lançe as notas aqui",icone:"ri-file-edit-line",link:"external:https://docs.google.com/spreadsheets/d/10CNByUcNnAOMq8-hutTxR6u_tX9D0rQYOsFTUKpyyyM/edit?usp=sharing"},
         {titulo:"Medidor de Fluência", desc:"Avalie fluência leitora.", icone:"ri-sound-module-line", link:"https://profkleidivaldo.github.io/medidorfluencia/"}
+    ]),
+    dados: () => showCards([
+        
+        {titulo:"Dashboard Gestão", desc:"Dados da Gestão", icone:"ri-table-line", link:"external:https://docs.google.com/spreadsheets/d/1CYcgN7XrmXz6VEW_ZgpcfmUpfaiGLdBYIoQ5jhQqOdg/edit?usp=sharing"}
     ])
 };
 
