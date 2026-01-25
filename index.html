@@ -10,7 +10,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Poppins',sans-serif;background:#f5f7fa;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 
-/* LOGIN */
+/* LOGIN SCREEN */
 .login-box{background:white;padding:40px;border-radius:12px;box-shadow:0 0 15px rgba(0,0,0,0.1);width:90%;max-width:380px;text-align:center;z-index: 10;}
 .login-box h2{margin-bottom:20px;color:#2a3f54;}
 .login-box input{width:100%;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px;font-size:16px;}
@@ -21,7 +21,7 @@ body{font-family:'Poppins',sans-serif;background:#f5f7fa;height:100vh;overflow:h
 .loading{display:none;margin:10px auto;width:30px;height:30px;border:4px solid #ddd;border-top:4px solid #2a3f54;border-radius:50%;animation:spin 1s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* DASHBOARD E SIDEBAR */
+/* DASHBOARD STRUCTURE */
 .dashboard{display:none;width:100%;height:100vh;overflow:hidden; flex-direction: row;}
 .sidebar{width:260px;background:#2a3f54;color:white;display:flex;flex-direction:column;transition: all 0.3s; z-index: 1000;}
 .sidebar.collapsed{width:70px;}
@@ -34,7 +34,6 @@ body{font-family:'Poppins',sans-serif;background:#f5f7fa;height:100vh;overflow:h
 .sidebar ul li:hover,.sidebar ul li.active{background:#1a2735;}
 .sidebar ul li i{font-size:20px;min-width:24px;}
 
-/* MAIN CONTENT */
 .main{flex-grow:1;display:flex;flex-direction:column; width: 100%; transition: all 0.3s;}
 .header{height:60px;background:white;box-shadow:0 1px 5px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:10;}
 .header h1{font-size:18px;color:#2a3f54; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
@@ -42,43 +41,27 @@ body{font-family:'Poppins',sans-serif;background:#f5f7fa;height:100vh;overflow:h
 .logout-btn{background:#2a3f54;color:white;padding:8px 14px;border-radius:6px;border:none;cursor:pointer;}
 
 .content{flex-grow: 1; overflow-y:auto; background:#f5f7fa; padding:20px;}
-iframe{width:100%;height:80vh;border:none;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
+iframe{width:100%;height:90vh;border:none;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
 
-/* CARDS */
+/* CARDS GRID */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
 .card{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:center;cursor:pointer;transition:transform 0.2s;}
 .card:hover{transform:translateY(-4px);box-shadow:0 4px 14px rgba(0,0,0,0.15);}
 .card i{font-size:38px;color:#2a3f54;margin-bottom:10px;}
 
-/* PIX MODAL */
+/* MODAL PIX */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:2000;}
 .modal-content{background:white;padding:25px;border-radius:12px;width:90%;max-width:350px;text-align:center;}
 .whatsapp-btn{background:#25D366;color:white;padding:12px;border-radius:8px;text-decoration:none;display:inline-block;width: 100%; margin-top: 10px;}
 
-/* RESPONSIVIDADE CELULAR */
 @media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    left: -260px;
-    height: 100%;
-  }
-  .sidebar.show {
-    left: 0;
-  }
-  .sidebar.collapsed {
-    left: -260px;
-  }
+  .sidebar { position: fixed; left: -260px; height: 100%; }
+  .sidebar.show { left: 0; }
+  .sidebar.collapsed { left: -260px; }
   .header h1 { font-size: 14px; }
 }
 
-/* Overlay para fechar menu no mobile */
-#overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.3);
-    z-index: 999;
-}
+#overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 999; }
 </style>
 </head>
 <body>
@@ -122,10 +105,10 @@ iframe{width:100%;height:80vh;border:none;border-radius:8px;box-shadow:0 0 10px 
       <li data-page="planejamento"><i class="ri-calendar-check-line"></i><span>Planejamento</span></li>
       <li data-page="autoria"><i class="ri-pencil-ruler-2-line"></i><span>Autoria</span></li>
       <li data-page="gestao"><i class="ri-briefcase-4-line"></i><span>Gestão de Sala</span></li>
-       <li data-page="dados"><i class="ri-briefcase-4-line"></i><span>Gestão de Dados</span></li>
+      <li data-page="dados"><i class="ri-pie-chart-line"></i><span>Gestão de Dados</span></li>
       <li onclick="abrirLink('https://chat.whatsapp.com/INWzt9qAmzyDg2JnJkwPcu')">
         <i class="ri-whatsapp-line" style="color:#25D366;"></i><span>Grupo WhatsApp</span>
-         </li>
+      </li>
       <li onclick="abrirLink('https://www.youtube.com/@educava4279')">
         <i class="ri-youtube-line" style="color:#ff0000;"></i><span>YouTube Educava</span>
       </li>
@@ -147,30 +130,19 @@ iframe{width:100%;height:80vh;border:none;border-radius:8px;box-shadow:0 0 10px 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbxu2eoqw38Cws30P7QPNy8_Y4uELofkeIkSv98b8FrLDBBC5FL1inyEHKB-aYs8Y9FSpA/exec";
 
-/* ========= LOGIN COM SESSION STORAGE (LIMPA AO FECHAR ABA) ========= */
+/* ========= LOGIN PRINCIPAL ========= */
 function login() {
     const userVal = document.getElementById("usuario").value;
     const passVal = document.getElementById("senha").value;
     if(!userVal || !passVal) return;
-
-    error(false); 
-    loading(true);
-
-    fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({ usuario: userVal, senha: passVal })
-    })
+    error(false); loading(true);
+    fetch(API_URL, { method: "POST", body: JSON.stringify({ usuario: userVal, senha: passVal }) })
     .then(r => r.json())
     .then(r => {
-        if(r.status === "ok") {
-            sessionStorage.setItem("gest_logado", "1"); // Uso de sessionStorage aqui
-            showDashboard();
-        } else {
-            error(true);
-        }
+        if(r.status === "ok") { sessionStorage.setItem("gest_logado", "1"); showDashboard(); } 
+        else { error(true); }
     })
-    .catch(() => error(true))
-    .finally(() => loading(false));
+    .catch(() => error(true)).finally(() => loading(false));
 }
 
 function loading(v) { document.getElementById("loading").style.display = v ? "block" : "none"; }
@@ -179,20 +151,25 @@ function error(v) { document.getElementById("error-msg").style.display = v ? "bl
 function showDashboard() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'flex';
-    pages.inicio();
+    abrirAbaPorURL();
+    if (!new URLSearchParams(window.location.search).get("page")) { pages.inicio(); }
 }
 
-function logout() {
-    sessionStorage.removeItem("gest_logado");
-    location.reload();
+function logout() { sessionStorage.removeItem("gest_logado"); location.reload(); }
+if(sessionStorage.getItem("gest_logado") === "1"){ showDashboard(); }
+
+function abrirAbaPorURL() {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page");
+    if (page && pages[page]) {
+        document.querySelector('.sidebar ul li.active')?.classList.remove('active');
+        const item = document.querySelector(`[data-page="${page}"]`);
+        if (item) item.classList.add('active');
+        pages[page]();
+    }
 }
 
-/* Verificação Automática ao Abrir */
-if(sessionStorage.getItem("gest_logado") === "1"){
-    showDashboard();
-}
-
-/* ========= MENU E RESPONSIVIDADE ========= */
+/* ========= UI CONTROLS ========= */
 const sidebar = document.getElementById("sidebar");
 const toggleBtn = document.getElementById("toggleBtn");
 const overlay = document.getElementById("overlay");
@@ -203,17 +180,12 @@ toggleBtn.onclick = () => {
     if(window.innerWidth <= 768) {
         sidebar.classList.toggle("show");
         overlay.style.display = sidebar.classList.contains("show") ? "block" : "none";
-    } else {
-        sidebar.classList.toggle("collapsed");
-    }
+    } else { sidebar.classList.toggle("collapsed"); }
 };
 
-overlay.onclick = () => {
-    sidebar.classList.remove("show");
-    overlay.style.display = "none";
-};
+overlay.onclick = () => { sidebar.classList.remove("show"); overlay.style.display = "none"; };
 
-/* ========= CONTEÚDO ========= */
+/* ========= CONTENT LOADING ========= */
 function showCards(cards) {
     let html = `<div class="cards">`;
     cards.forEach(c => {
@@ -234,12 +206,16 @@ function openIframe(link, titulo) {
         return;
     }
     content.innerHTML = `
-        <button onclick="pages.inicio()" style="margin-bottom:15px; cursor:pointer; padding:5px 10px;">⬅ Voltar</button>
-        <h2 style="margin-bottom:10px;">${titulo}</h2>
-        <iframe src='${link}'></iframe>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <button onclick="pages.inicio()" style="cursor:pointer; padding:5px 12px; border-radius:6px; border:1px solid #ccc; background:#fff;">⬅ Início</button>
+            <h2 style="font-size:1.2rem; color:#2a3f54;">${titulo}</h2>
+            <span></span>
+        </div>
+        <iframe src="${link}" id="main-iframe"></iframe>
     `;
 }
 
+/* ========= PAGES CONFIG ========= */
 const pages = {
     inicio: () => {
         content.innerHTML = `
@@ -267,14 +243,14 @@ const pages = {
         {titulo:"Chamada", desc:"Controle de frequência.", icone:"ri-user-follow-line", link:"https://profkleidivaldo.github.io/chamada/"},
         {titulo:"Espelho 2º Ano", desc:"Notas da turma.", icone:"ri-table-line", link:"external:https://docs.google.com/spreadsheets/d/1A2SEdy6W4-cZfO0AIOtgso5LFMLITdiRFivyGr4JwuE/"},
         {titulo:"Espelho 3º Ano", desc:"Notas da turma.", icone:"ri-table-line", link:"external:https://docs.google.com/spreadsheets/d/1Ok3L284rzj3Iwf6Q2z2YAn9qa8Xa_pkI8Fzr5LJP0L0/"},
-      {titulo:"Espelho de notas 4°ANO",desc:"Lançe as notas aqui",icone:"ri-file-edit-line",link:"external:https://docs.google.com/spreadsheets/d/18L83bD2h5J0cuATSnI2YcCMXc86Jm0W-ZdmzzfFkFu0/edit?usp=sharing"},
-    {titulo:"Espelho de notas 5°ANO",desc:"Lançe as notas aqui",icone:"ri-file-edit-line",link:"external:https://docs.google.com/spreadsheets/d/10CNByUcNnAOMq8-hutTxR6u_tX9D0rQYOsFTUKpyyyM/edit?usp=sharing"},
+        {titulo:"Espelho de notas 4°ANO",desc:"Lance as notas aqui",icone:"ri-file-edit-line",link:"external:https://docs.google.com/spreadsheets/d/18L83bD2h5J0cuATSnI2YcCMXc86Jm0W-ZdmzzfFkFu0/edit?usp=sharing"},
+        {titulo:"Espelho de notas 5°ANO",desc:"Lance as notas aqui",icone:"ri-file-edit-line",link:"external:https://docs.google.com/spreadsheets/d/10CNByUcNnAOMq8-hutTxR6u_tX9D0rQYOsFTUKpyyyM/edit?usp=sharing"},
         {titulo:"Medidor de Fluência", desc:"Avalie fluência leitora.", icone:"ri-sound-module-line", link:"https://profkleidivaldo.github.io/medidorfluencia/"}
     ]),
-    dados: () => showCards([
-        
-        {titulo:"Dashboard Gestão", desc:"Dados da Gestão", icone:"ri-table-line", link:"external:https://docs.google.com/spreadsheets/d/1CYcgN7XrmXz6VEW_ZgpcfmUpfaiGLdBYIoQ5jhQqOdg/edit?usp=sharing"}
-    ])
+    dados: () => {
+        // Primeiro, ele pede o login do diretor na tela central.
+        openIframe("https://profkleidivaldo.github.io/logindiretor/", "Gestão de Dados");
+    }
 };
 
 items.forEach(li => {
@@ -284,10 +260,7 @@ items.forEach(li => {
             document.querySelector('.sidebar ul li.active')?.classList.remove('active');
             li.classList.add('active');
             pages[page]();
-            if(window.innerWidth <= 768) {
-                sidebar.classList.remove('show');
-                overlay.style.display = "none";
-            }
+            if(window.innerWidth <= 768) { sidebar.classList.remove('show'); overlay.style.display = "none"; }
         }
     });
 });
