@@ -286,3 +286,244 @@ function abrirLink(url) { window.open(url, '_blank'); }
 </script>
 </body>
 </html>
+<style>
+    /* Prefixamos tudo com #gem- para não interferir no seu site */
+    #gem-assistant-container * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Botão Flutuante */
+    #gem-trigger {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 52px;
+        transition: transform 0.3s ease;
+        z-index: 999999;
+    }
+
+    #gem-trigger:hover { transform: scale(1.1); }
+
+    /* Janela do Chat */
+    #gem-chat-window {
+        position: fixed;
+        bottom: 95px;
+        right: 20px;
+        width: 350px;
+        max-width: 90vw;
+        height: 500px;
+        max-height: 70vh;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        display: none;
+        flex-direction: column;
+        z-index: 999998;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+    }
+
+    #gem-chat-window.active { display: flex; }
+
+    /* Cabeçalho */
+    .gem-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .gem-header h3 { font-size: 16px; font-weight: 600; color: white !important; }
+
+    .gem-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 22px;
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    /* Área de Mensagens */
+    #gem-messages-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 15px;
+        background: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .gem-msg {
+        padding: 10px 14px;
+        border-radius: 12px;
+        max-width: 85%;
+        font-size: 14px;
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
+
+    .gem-msg.user {
+        background: #667eea;
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 2px;
+    }
+
+    .gem-msg.assistant {
+        background: white;
+        color: #333;
+        align-self: flex-start;
+        border-bottom-left-radius: 2px;
+        border: 1px solid #eee;
+    }
+
+    /* Input e Botão */
+    .gem-input-box {
+        padding: 12px;
+        display: flex;
+        gap: 8px;
+        background: white;
+        border-top: 1px solid #eee;
+    }
+
+    #gem-input {
+        flex: 1;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    #gem-input:focus { border-color: #667eea; }
+
+    #gem-send {
+        background: #764ba2;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* Indicador de Digitação */
+    #gem-typing {
+        display: none;
+        padding: 8px 15px;
+        font-size: 12px;
+        color: #888;
+    }
+    #gem-typing.active { display: block; }
+</style>
+
+<div id="gem-assistant-container">
+    <div id="gem-trigger">🤖</div>
+
+    <div id="gem-chat-window">
+        <div class="gem-header">
+            <h3>  X da questão</h3>
+            <button class="gem-close" onclick="document.getElementById('gem-chat-window').classList.remove('active')">×</button>
+        </div>
+        
+        <div id="gem-messages-area">
+            <div class="gem-msg assistant">Olá! Como posso ajudar você hoje?</div>
+        </div>
+
+        <div id="gem-typing">Digitando...</div>
+
+        <div class="gem-input-box">
+            <input type="text" id="gem-input" placeholder="Escreva aqui..." autocomplete="off">
+            <button id="gem-send">Enviar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // --- CONFIGURAÇÃO ---
+        const API_KEY = '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'; // <--- INSIRA SUA CHAVE AQUI
+        const MODEL = 'llama-3.1-8b-instant';
+        
+        const trigger = document.getElementById('gem-trigger');
+        const windowChat = document.getElementById('gem-chat-window');
+        const input = document.getElementById('gem-input');
+        const btn = document.getElementById('gem-send');
+        const area = document.getElementById('gem-messages-area');
+        const typing = document.getElementById('gem-typing');
+
+        let history = [];
+
+        // Abrir/Fechar
+        trigger.onclick = () => {
+            windowChat.classList.toggle('active');
+            if(windowChat.classList.contains('active')) input.focus();
+        };
+
+        // Enviar
+        const handleSend = async () => {
+            const text = input.value.trim();
+            if(!text) return;
+
+            addMsg(text, 'user');
+            input.value = '';
+            typing.classList.add('active');
+            area.scrollTop = area.scrollHeight;
+
+            history.push({ role: 'user', content: text });
+
+            try {
+                const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [{ role: 'system', content: 'Você é um assistente educacional útil e breve.' }, ...history.slice(-6)],
+                        temperature: 0.7
+                    })
+                });
+
+                const data = await resp.json();
+                const reply = data.choices[0].message.content;
+                
+                addMsg(reply, 'assistant');
+                history.push({ role: 'assistant', content: reply });
+            } catch (e) {
+                addMsg("Erro ao conectar. Verifique sua chave API.", 'assistant');
+            } finally {
+                typing.classList.remove('active');
+                area.scrollTop = area.scrollHeight;
+            }
+        };
+
+        btn.onclick = handleSend;
+        input.onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
+
+        function addMsg(text, side) {
+            const d = document.createElement('div');
+            d.className = `gem-msg ${side}`;
+            d.innerText = text;
+            area.appendChild(d);
+            area.scrollTop = area.scrollHeight;
+        }
+    })();
+</script>
